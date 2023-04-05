@@ -1,22 +1,69 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+// 路由
+import login from '@/views/Login'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect: '/login'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/login',
+    name: 'login',
+    component: login,
+    redirect: '/login/login',
+    children: [
+      {
+        path: 'login',
+        component: () => import(/* webpackChunkName: "loginComponent" */ '@/components/login/Login.vue'),
+        meta: {
+          title: '登录页面'
+        }
+      }
+    ]
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import(/* webpackChunkName: "homeComponet" */ '@/views/Home/index.vue'),
+    meta: {
+      title: '试卷管理'
+    }
+  },
+  {
+    path: '/paper/create',
+    name: 'CreatePaper',
+    component: () => import(/* webpackChunkName: "createPaperComponet" */ '@/views/Paper/createPaper.vue'),
+    meta: {
+      title: '创建试卷'
+    },
+    children: [
+      {
+        path: 'single',
+        component: () => import(/* webpackChunkName: "loginComponent" */ '@/components/question/single.vue'),
+        meta: {
+          title: '单选题'
+        }
+      },
+      {
+        path: 'multiple',
+        component: () => import(/* webpackChunkName: "loginComponent" */ '@/components/question/multiple.vue'),
+        meta: {
+          title: '多选题'
+        }
+      },
+      {
+        path: 'judgment',
+        component: () => import(/* webpackChunkName: "loginComponent" */ '@/components/question/judgment.vue'),
+        meta: {
+          title: '判断题'
+        }
+      }
+    ]
   }
 ]
 
