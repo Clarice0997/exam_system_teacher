@@ -11,19 +11,19 @@
       </div>
       <div class="list-body-container">
         <div class="question-list-container">
-          <div class="question-type" v-if="singleQuestions.length !== '1'"><span>1 单选题</span></div>
+          <div class="question-type" v-if="singleQuestions.length !== 0"><span>1 单选题</span></div>
           <div v-for="item in singleQuestions" class="question-container" @click="clickExistQuestionHandler('single', item)">
             <span>（{{ item.questionNum }}） {{ item.content }}</span>
           </div>
         </div>
         <div class="question-list-container">
-          <div class="question-type" v-if="singleQuestions.length !== '2'"><span>2 多选题</span></div>
+          <div class="question-type" v-if="multipleQuestions.length !== 0"><span>2 多选题</span></div>
           <div v-for="item in multipleQuestions" class="question-container" @click="clickExistQuestionHandler('multiple', item)">
             <span>（{{ item.questionNum }}） {{ item.content }}</span>
           </div>
         </div>
         <div class="question-list-container">
-          <div class="question-type" v-if="singleQuestions.length !== '3'"><span>3 判断题</span></div>
+          <div class="question-type" v-if="judgmentQuestions.length !== 0"><span>3 判断题</span></div>
           <div v-for="item in judgmentQuestions" class="question-container" @click="clickExistQuestionHandler('judgment', item)">
             <span>（{{ item.questionNum }}） {{ item.content }}</span>
           </div>
