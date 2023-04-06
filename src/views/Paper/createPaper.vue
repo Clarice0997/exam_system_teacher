@@ -37,6 +37,10 @@
         <el-button :type="questionBtnType === 3 ? 'success' : undefined" @click="clickChangeBtnType('judgment')">判断题</el-button>
       </div>
       <router-view></router-view>
+      <div class="paper-handle-btns" v-if="$route.path === '/paper/create'">
+        <el-button type="success" @click="clickSavePaperHandler">保存试卷</el-button>
+        <el-button type="danger" @click="$router.replace('/home')">退出</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -133,20 +137,27 @@ export default {
     clickExistQuestionHandler(type, data) {
       this.selectedQuestion = data
       this.$router.replace({ path: `/paper/create/${type}`, query: { data: JSON.stringify(this.selectedQuestion) } })
+    },
+    clickSavePaperHandler() {
+      // TODO: 保存试卷试题
+      this.$router.replace('/home')
     }
   },
   watch: {
-    // 侦听路由变化 改变按钮状态
-    $route(to) {
-      const path = to.path.split('/').pop()
-      if (path === 'single') {
-        this.questionBtnType = 1
-      } else if (path === 'multiple') {
-        this.questionBtnType = 2
-      } else if (path === 'judgment') {
-        this.questionBtnType = 3
-      } else {
-        this.questionBtnType = 0
+    $route: {
+      immediate: true,
+      // 侦听路由变化 改变按钮状态
+      handler(to) {
+        const path = to.path.split('/').pop()
+        if (path === 'single') {
+          this.questionBtnType = 1
+        } else if (path === 'multiple') {
+          this.questionBtnType = 2
+        } else if (path === 'judgment') {
+          this.questionBtnType = 3
+        } else {
+          this.questionBtnType = 0
+        }
       }
     }
   }
@@ -218,6 +229,7 @@ export default {
   margin: 30px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   .question-type-btns {
@@ -226,6 +238,18 @@ export default {
     height: 55px;
     background: white;
     border-bottom: 2px solid #e3e3e3;
+    justify-content: center;
+    .el-button {
+      margin: 10px;
+    }
+  }
+  .paper-handle-btns {
+    display: flex;
+    align-items: center;
+    height: 55px;
+    background: white;
+    border-top: 2px solid #e3e3e3;
+    justify-content: center;
     .el-button {
       margin: 10px;
     }

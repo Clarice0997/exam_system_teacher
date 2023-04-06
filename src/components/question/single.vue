@@ -1,6 +1,6 @@
 <template>
   <div class="question-form-container">
-    <quill-editor ref="myLQuillEditor" v-model="question.content" class="editor" @change="onEditorBlur"> > </quill-editor>
+    <quill-editor ref="myLQuillEditor" v-model="question.content" class="editor" @blur="onEditorBlur($event)"> > </quill-editor>
     <div class="submit-reset-btns">
       <el-button class="save-btn" type="success">保存该题</el-button>
       <el-button class="reset-btn" type="warning">重置</el-button>
@@ -19,12 +19,12 @@ export default {
   mounted() {
     if (this.$route.query.data) {
       this.question = JSON.parse(this.$route.query.data)
-      this.question.type = '1'
     }
+    this.question.type = '1'
   },
   methods: {
     onEditorBlur(e) {
-      this.question.content = e.text
+      this.question.content = this.$refs.myLQuillEditor.quill.root.innerHTML
     },
     clickCancelBtnHandler() {
       // 清空选择问题
@@ -51,14 +51,25 @@ export default {
   justify-content: space-between;
   .editor {
     margin: 10px;
+    height: 200px;
+  }
+  .ql-container {
+    overflow: auto; /* 滚动条出现 */
   }
   .ql-snow {
     border: 0;
+    box-sizing: border-box; /* 边框不会撑开编辑器 */
   }
   .submit-reset-btns {
-    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 55px;
+    background: white;
+    border-top: 2px solid #e3e3e3;
+    justify-content: center;
     .el-button {
-      margin: 20px;
+      margin: 10px;
     }
   }
 }
